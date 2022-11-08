@@ -103,17 +103,7 @@ def highest_lowest_value_update(json_df, ohlc):
     Input("ohlc-radio", "value"),
 )
 def update_graph(json_df, stock, ohlc):
-    # tuple unpacks a list
-    # dff_daily, dff_intraday = df_dict[stock]
-
-    # dff = dff_intraday if time_index <= 2 else dff_daily
-
-    # days = {i: day for i, day in enumerate([1, 7, 30, 90, 365, 365*5])}
-
-    # dff = dff if time_index == 6 else filter_time(dff, days = days[time_index])
-
     dff = pd.read_json(json_df)
-
     return px.line(dff, x=dff.index, y=ohlc, title=symbol_dict[stock])
 
 
