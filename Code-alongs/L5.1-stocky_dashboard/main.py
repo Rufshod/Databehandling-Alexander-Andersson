@@ -1,4 +1,5 @@
 import os
+import sys
 import dash
 from load_data import StockData
 from time_filtering import filter_time
@@ -6,13 +7,18 @@ import plotly_express as px
 import pandas as pd
 from dash import html, dcc  # dcc - dash core components
 import dash_bootstrap_components as dbc
-from dash.dependencies import Output, Input
+from dash.dependencies import Output, Input # Needed to use callbacks. If user clicks on something, something should happen.
 
+# find absolute path in vscode, when clicking run button it will check where you are in terminal, 
+# which is in Databehandling AI 222
 directory_path = os.path.dirname(__file__)
 path = os.path.join(directory_path, "stocksdata")
+sys.path.append(os.path.join(directory_path,"graphs"))
+
 
 print(path)
-
+# instantiate an object from the class
+# StockData that we have imported
 stockdata_object = StockData(path)
 
 # pick one stock (to test)
@@ -40,9 +46,10 @@ ohlc_options = [
 # print(df_dict["TSLA"][0]) #Get the Tesla Dataframe
 
 # create a Dash App.
-app = dash.Dash(__name__)
+app = dash.Dash(__name__) # boilerplate code
 
-app.layout = html.Main(
+
+app.layout = html.Main( # This is a html method, 
     [
         html.H1("Knock off Avanza"),  # html H1 = Header 1 (rubrik)
         html.P("Choose a stock"),
@@ -86,14 +93,14 @@ def filter_df(stock, time_index):
 @app.callback(
     Output("highest_value", "children"),
     Output("lowest_value", "children"),
-    Input("filtered-df", "data"),
-    Input("olhc-radio", "value"),
+    Input("filtered-df", "data"), # when this is changed function below will run.
+    Input("olhc-radio", "value"),# same as above.
 )
 def highest_lowest_value_update(json_df, ohlc):
     dff = pd.read_json(json_df)
     highest_value = dff[ohlc].max()
     lowest_value = dff[ohlc].min()
-    return highest_value, lowest_value
+    return f"Highest value {highest_value}, Lowest value {lowest_value}"
 
 
 @app.callback(
