@@ -1,4 +1,4 @@
-from dash import html, dcc # dcc - dash core components
+from dash import html, dcc  # dcc - dash core components
 import dash_bootstrap_components as dbc
 
 
@@ -25,26 +25,36 @@ class Layout:
     def layout(self):
         return dbc.Container(
             [
-                dbc.Card(dbc.CardBody(html.H1("Techy stocks viewer")), className="mt-3"
+                dbc.Card(
+                    dbc.CardBody(html.H1("Techy stocks viewer")), className="mt-3"
                 ),
+                dbc.Row(
+                    className="mt-4",
+                    children=[
+                        dbc.Col(html.P("Choose a stock"), className="mt-2"),
 
-                dbc.Row([
-                    dbc.Col(html.P("Choose a stock")),
-
-                    dbc.Col(                dcc.Dropdown(
-                    id="stockpicker-dropdown",
-                    options=self._stock_options_dropdown,
-                    value="AAPL",
-                )),
-                
-                    dbc.Col()
-                ]),
-
+                        dbc.Col(
+                            dcc.Dropdown(
+                                id="stockpicker-dropdown",
+                                options=self._stock_options_dropdown,
+                                value="AAPL",
+                            ), lg = "1",    
+                        ),
+                        dbc.Col(
+                            dbc.Card(
+                                dcc.RadioItems(
+                                    id="ohlc-radio",
+                                    className="mt-2"
+                                    options=self._ohlc_options,
+                                    value="close",
+                                )
+                            )
+                        ),
+                    ],
+                ),
+            
                 html.P(id="highest-value"),
                 html.P(id="lowest-value"),
-                dcc.RadioItems(
-                    id="ohlc-radio", options=self._ohlc_options, value="close"
-                ),
                 dcc.Graph(id="stock-graph"),
                 dcc.Slider(
                     id="time-slider",
