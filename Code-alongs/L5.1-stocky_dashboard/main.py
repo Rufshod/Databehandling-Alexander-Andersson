@@ -1,6 +1,7 @@
 import dash
 import os
 from load_data import StockData
+import dash_bootstrap_components as dbc
 from dash.dependencies import Output, Input
 import plotly_express as px
 from time_filtering import filter_time
@@ -16,10 +17,8 @@ symbol_dict = {"AAPL": "Apple", "NVDA": "Nvidia", "TSLA": "Tesla", "IBM": "IBM"}
 
 df_dict = {symbol: stockdata_object.stock_dataframe(symbol) for symbol in symbol_dict}
 
-# print(df_dict["TSLA"][0])
-
-# create a Dash App
-app = dash.Dash(__name__)
+# create a Dash App # This is to create a server.
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.MINTY])  # And change themes with dbc
 
 app.layout = Layout(symbol_dict).layout() # using imported class.
 
