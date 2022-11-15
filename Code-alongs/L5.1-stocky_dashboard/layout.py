@@ -31,16 +31,27 @@ class Layout:
                 dbc.Row(
                     className="mt-4",
                     children=[
-                        dbc.Col(html.P("Choose a stock"), className="mt-1", lg = "4", xl={"offset": 2, "size":1}),
-
+                        dbc.Col(
+                            html.P("Choose a stock"),
+                            className="mt-1",
+                            xs = "12",
+                            sm = "12",
+                            md = "12",
+                            lg="4",
+                            xl={"offset": 2, "size": 1},
+                        ),
                         dbc.Col(
                             dcc.Dropdown(
                                 id="stockpicker-dropdown",
                                 options=self._stock_options_dropdown,
                                 value="AAPL",
-                            ), lg = "4", xl="3"
+                            ),
+                            xs = "12",
+                            sm = "12",
+                            md = "12",
+                            lg="4",
+                            xl="3",
                         ),
-
                         dbc.Col(
                             dbc.Card(
                                 dcc.RadioItems(
@@ -50,41 +61,62 @@ class Layout:
                                     value="close",
                                 )
                             ),
-                            lg="4", xl="3"
+                            xs = "12",
+                            sm = "12",
+                            md = "12",
+                            lg="4",
+                            xl="3",
                         ),
                     ],
                 ),
-                dbc.Row([
-                    dbc.Col([
-                dcc.Graph(id="stock-graph"),
-                dcc.Slider(
-                    id="time-slider",
-                    min=0,
-                    max=6,
-                    marks=self._slider_marks,
-                    value=2,
-                    step=None,
-                )
-                    ]),
-                    dbc.Col([
-                        dbc.Row(
-                            dbc.Card([
-                                html.H2("Highest value"),
-                                html.P(id="highest-value")
-                            ])
+                dbc.Row(
+                    [
+                        dbc.Col(
+                            [
+                                dcc.Graph(id="stock-graph"),
+                                dcc.Slider(
+                                    id="time-slider",
+                                    min=0,
+                                    max=6,
+                                    marks=self._slider_marks,
+                                    value=2,
+                                    step=None,
+                                ),
+                            ]
                         ),
-                        dbc.Row(
-                            dbc.Card([
-                                html.H2("Lowest value"),
-                                html.P(id="lowest-value")
-
-                            ])
-                        )
-                    ])
-                ]),
-                
-                
-
+                        dbc.Col(
+                            [
+                                dbc.Row(
+                                    dbc.Card(
+                                        [
+                                            html.H2(
+                                                "Highest value",
+                                                className="h5 mt-3 mx-3 t-3",
+                                            ),
+                                            html.P(
+                                                id="highest-value",
+                                                className="h3 mx-2 text-success",
+                                            ),
+                                        ]
+                                    ), class_name="mt-5 h-25"
+                                ),
+                                dbc.Row(
+                                    dbc.Card(
+                                        [
+                                            html.H2(
+                                                "Lowest value", className="h5 mt-3 mx-3 t-3"
+                                            ),
+                                            html.P(
+                                                id="lowest-value",
+                                                className="h3 mx-2 text-danger",
+                                            ),
+                                        ]
+                                    ),  class_name="mt-5 h-25"
+                                ),
+                            ], lg= "3", xl = "2", md = "6", sm = "6", xs = "6", class_name= "mt-5 mx-5"
+                        ),
+                    ]
+                ),
                 # storing intermediate value on clients browser in order to share between several callbacks
                 dcc.Store(id="filtered-df"),
             ],
