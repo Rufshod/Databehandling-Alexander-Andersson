@@ -31,14 +31,14 @@ class Layout:
                 dbc.Row(
                     className="mt-4",
                     children=[
-                        dbc.Col(html.P("Choose a stock"), className="mt-1"),
+                        dbc.Col(html.P("Choose a stock"), className="mt-1", lg = "4", xl={"offset": 2, "size":1}),
 
                         dbc.Col(
                             dcc.Dropdown(
                                 id="stockpicker-dropdown",
                                 options=self._stock_options_dropdown,
                                 value="AAPL",
-                            ), lg = "4",
+                            ), lg = "4", xl="3"
                         ),
 
                         dbc.Col(
@@ -49,12 +49,13 @@ class Layout:
                                     options=self._ohlc_options,
                                     value="close",
                                 )
-                            )
+                            ),
+                            lg="4", xl="3"
                         ),
                     ],
                 ),
-                html.P(id="highest-value"),
-                html.P(id="lowest-value"),
+                dbc.Row([
+                    dbc.Col([
                 dcc.Graph(id="stock-graph"),
                 dcc.Slider(
                     id="time-slider",
@@ -63,8 +64,28 @@ class Layout:
                     marks=self._slider_marks,
                     value=2,
                     step=None,
-                ),
+                )
+                    ]),
+                    dbc.Col([
+                        dbc.Row(
+                            dbc.Card([
+                                html.H2("Highest value"),
+                                html.P(id="highest-value")
+                            ])
+                        ),
+                        dbc.Row(
+                            dbc.Card([
+                                html.H2("Lowest value"),
+                                html.P(id="lowest-value")
+
+                            ])
+                        )
+                    ])
+                ]),
+                
+                
+
                 # storing intermediate value on clients browser in order to share between several callbacks
                 dcc.Store(id="filtered-df"),
-            ]
+            ],
         )

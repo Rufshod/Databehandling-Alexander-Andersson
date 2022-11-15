@@ -66,7 +66,7 @@ def highest_lowest_value_update(json_df, ohlc):
 )
 def update_graph(json_df, stock, ohlc):
     dff = pd.read_json(json_df)
-    return px.line(dff, x=dff.index, y=ohlc, title=symbol_dict[stock])
+    return px.line(dff, x=dff.index, y=ohlc, title=symbol_dict[stock], template="gridon", labels={"index": "Time"})
 
 
 if __name__ == "__main__":
